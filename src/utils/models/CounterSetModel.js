@@ -7,7 +7,7 @@ const CounterSet = new mongoose.Schema({
     label: { type: String },
     creationDate: { type: Date, default: Date.now() },
     lastUpdated: { type: Date, default: Date.now() },
-    counters: [{type: mongoose.Schema.ObjectId, soft_delete_action: null, ref: Counter}],
+    counters: [{ type: mongoose.Schema.ObjectId, soft_delete_action: null, ref: Counter }],
 });
 
 CounterSet.pre('remove', function(next)

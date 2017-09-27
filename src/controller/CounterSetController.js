@@ -40,6 +40,13 @@ export default class CounterSetController
             .catch(err => res.json(err));
     }
 
+    killCounterFromCounterSet(req, res)
+    {
+        counterSet.killCounterFromCounterSet(req.body.counterSetId, req.body.counterId)
+            .then(result => res.json(result))
+            .catch(err => res.json(err));
+    }
+
     addCounter(req, res)
     {
         counterSet.addCounter(req.body.id)

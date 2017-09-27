@@ -75,6 +75,42 @@ export default class CounterSetHandler
         });
     }
 
+    killCounterFromCounterSet(counterSetId, counterId)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.getCounterSet(counterSetId)
+                .then(counterSet =>
+                {
+                    this.Counter.getCounter(counterId)
+                        .then(counter =>
+                        {
+                            counter.remove()
+                                .then(result =>
+                                {
+                                    let index = counterSet.counters.indexOf(counterId);
+
+                                    counterSet.counters.splice(index, 1);
+                                    counterSet.save();
+
+                                    resolve(result)
+                                }).catch(err => reject(err))
+                        }).catch(err => reject(err))
+
+                }).catch(err => reject(err));
+
+            // this.getCounter(id).then(counter =>
+            // {
+            //     /**
+            //      * TODO: Si date.now() - counter.date <= 5 minute alors on supprime
+            //      */
+            //     counter.remove({'_id': id})
+            //         .then(result => resolve(result))
+            //         .catch(err => reject(err));
+            // }).catch(err => reject(err));
+        });
+    }
+
     addCounter(id)
     {
         return new Promise((resolve, reject) =>
@@ -83,7 +119,8 @@ export default class CounterSetHandler
                 .then(counterSet =>
                 {
                     this.Counter.create({
-                        date: Date.now()
+                        date: Date.now(),
+                        counterSet: id
                     }).then(counter =>
                         {
                             counterSet.counters.push(counter);

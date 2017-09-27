@@ -29,11 +29,6 @@ export default class CounterHandler
         })
     }
 
-    /**
-     * TODO REMOVE DIDNt WORK
-     * @param id
-     * @returns {Promise}
-     */
     killCounter(id)
     {
         return new Promise((resolve, reject) =>

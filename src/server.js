@@ -60,22 +60,13 @@ export default class Server {
 
 
         /**
-         * CounterSet: 59ca13b3a899e8447cfd0356
-         *
-         * Counter1: 59ca72ec4f0823198f26946c
-         * Counter2: 59ca72ec4f0823198f26946d
-         * Counter3: 59ca72ef4f0823198f26946e
-         *
-         *
-         */
-
-        /**
          * Route CounterSetModel
          */
         this._app.get('/v1/counter_sets', counterSetController.getCounterSets);
         this._app.post('/v1/counter_set/post', counterSetController.postCounterSet);
         this._app.post('/v1/counter_set/put', counterSetController.putCounterSet);
         this._app.delete('/v1/counter_set', counterSetController.killCounterSet);
+        this._app.delete('/v1/counter_set/counter/delete', counterSetController.killCounterFromCounterSet);
         this._app.post('/v1/counter_set/counter/post', counterSetController.addCounter);
 
 

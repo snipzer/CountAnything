@@ -1,5 +1,6 @@
 import UserModel from '../models/UserModel';
 import CounterSetModel from '../models/CounterSetModel';
+import CounterModel from '../models/CounterModel';
 import _ from "underscore";
 
 
@@ -9,6 +10,7 @@ export default class UserHandler
     {
         this.UserModel = UserModel;
         this.CounterSetModel = CounterSetModel;
+        this.CounterModel = CounterModel;
     }
 
     getUsers()
@@ -80,6 +82,7 @@ export default class UserHandler
             {
                 this.CounterSetModel.create({
                     label: label,
+                    user: user._id
                 }).then(counterSet =>
                 {
                     user.counterSets.push(counterSet);
@@ -88,6 +91,80 @@ export default class UserHandler
 
                 }).catch(err => reject(err))
             }).catch(err => reject(err));
+        });
+    }
+
+    killCounterSet(userId, counterSetId)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.getUser(userId)
+                .then(user =>
+                {
+                    this.CounterSetModel.findOne({"_id": counterSetId})
+                        .then((counterSet) =>
+                        {
+                            new Promise((resolve, reject) =>
+                            {
+                                counterSet.counters.forEach((counterId) =>
+                                {
+                                    this.CounterModel.remove({_id: counterId})
+                                });
+
+                                resolve(messages.deleted);
+                                reject(messages.errors);
+                            });
+
+                            this.CounterSetModel.remove({_id: counterSetId})
+                                .then(result =>
+                                {
+                                    let index = user.counterSets.indexOf(counterSetId);
+
+                                    user.counterSets.splice(index, 1);
+                                    user.save();
+
+                                    resolve(result)
+                                }).catch(err => reject(err))
+                        });
+                }).catch(err => reject(err));
+        });
+    }
+
+    addCounterSetToFav(userId, counterSetId)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.getUser(userId)
+                .then(user =>
+                {
+                    if(!user.favoriteCounterSets.includes(counterSetId))
+                    {
+                        user.favoriteCounterSets.push(counterSetId);
+                        user.save();
+                    }
+
+                    resolve(user);
+                }).catch(err => reject(err))
+        });
+    }
+
+    removeCounterSetFromFav(userId, counterSetId)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.getUser(userId)
+                .then(user =>
+                {
+                    let index = user.favoriteCounterSets.indexOf(counterSetId);
+
+                    if(index !== -1)
+                    {
+                        user.favoriteCounterSets.splice(index, 1);
+                        user.save();
+                    }
+
+                    resolve(user);
+                }).catch(err => reject(err))
         });
     }
 

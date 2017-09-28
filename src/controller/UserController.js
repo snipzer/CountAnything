@@ -43,4 +43,25 @@ export default class UserController
             .then(result => res.json(result))
             .catch(err => res.json(err));
     }
+
+    killCounterSet(req, res)
+    {
+        userHandler.killCounterSet(req.body.userId, req.body.counterSetId)
+            .then(result => res.json(result))
+            .catch(err => res.json(err))
+    }
+
+    addCounterSetToFav(req, res)
+    {
+        userHandler.addCounterSetToFav(req.body.userId, req.body.counterSetId)
+            .then(result => res.json(result))
+            .catch(err => res.json(err));
+    }
+
+    removeCounterSetFromFav(req, res)
+    {
+        userHandler.removeCounterSetFromFav(req.body.userId, req.body.counterSetId)
+            .then(result => res.json(result))
+            .catch(err => res.json(err));
+    }
 }

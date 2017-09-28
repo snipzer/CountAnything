@@ -21,27 +21,19 @@ export default class CounterHandler
 
     getCounter(id)
     {
-        return new Promise((resolve, reject) =>
+        if(typeof id === "string" && id.length === 24)
         {
-            this.Counter.findOne({"_id": id})
-                .then(counter => resolve(counter))
-                .catch(err => reject(err));
-        })
-    }
-
-    killCounter(id)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            this.getCounter(id).then(counter =>
+            return new Promise((resolve, reject) =>
             {
-                /**
-                 * TODO: Si date.now() - counter.date <= 5 minute alors on supprime
-                 */
-                counter.remove({'_id': id})
-                    .then(result => resolve(result))
+                this.Counter.findOne({"_id": id})
+                    .then(counter => resolve(counter))
                     .catch(err => reject(err));
-            }).catch(err => reject(err));
-        });
+            })
+        }
+        else
+        {
+            return false;
+        }
+
     }
 }

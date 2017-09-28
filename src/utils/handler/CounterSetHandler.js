@@ -68,9 +68,38 @@ export default class CounterSetHandler
         {
             this.CounterSetModel.findOne({"_id": id}, (err, counterSet) =>
             {
-                counterSet.remove()
-                    .then(obj => resolve(obj))
-                    .catch(err => reject(err));
+                let counterDeletion = new Promise((resolve, reject) =>
+                {
+                    let messages = {
+                        deleted: [],
+                        errors: []
+                    };
+
+                    counterSet.counters.forEach((counterId) =>
+                    {
+                        this.CounterModel.remove({_id: counterId})
+                            .then(() =>
+                            {
+                                let deleted = "Confirmation de suppression de : " + counterId;
+                                messages.deleted.push(deleted);
+                            })
+                            .catch(() =>
+                            {
+                                let error = "Problème lors de la suppression de : " + counterId;
+                                messages.errors.push(error);
+                            });
+                    });
+
+                    resolve(messages.deleted);
+                    reject(messages.errors);
+                });
+
+                resolve(counterDeletion);
+                reject(counterDeletion);
+
+                // counterSet.remove()
+                //     .then(obj => resolve(obj))
+                //     .catch(err => reject(err));
             });
         });
     }
@@ -82,16 +111,16 @@ export default class CounterSetHandler
             this.getCounterSet(counterSetId)
                 .then(counterSet =>
                 {
-                    this.CounterModel.findOne({ _id: counterId })
+                    this.CounterModel.findOne({_id: counterId})
                         .then(counter =>
                         {
-                            let counterDateInSecond = counter.date.getTime()/1000;
+                            let counterDateInSecond = counter.date.getTime() / 1000;
                             let now = new Date();
-                            let nowInSecond = now.getTime()/1000;
+                            let nowInSecond = now.getTime() / 1000;
 
                             let diff = Math.abs(counterDateInSecond - nowInSecond);
 
-                            if(diff <= 15)
+                            if (diff <= 15)
                             {
                                 counter.remove()
                                     .then(result =>
@@ -109,7 +138,6 @@ export default class CounterSetHandler
                                 resolve("Error, you only have 5 second to change your mind");
                             }
                         }).catch(err => reject(err));
-
                 }).catch(err => reject(err));
         });
     }
@@ -125,11 +153,11 @@ export default class CounterSetHandler
                         date: Date.now(),
                         counterSet: id
                     }).then(counter =>
-                        {
-                            counterSet.counters.push(counter);
-                            counterSet.save();
-                            resolve(counterSet);
-                        }).catch(err => reject(err));
+                    {
+                        counterSet.counters.push(counter);
+                        counterSet.save();
+                        resolve(counterSet);
+                    }).catch(err => reject(err));
                 }).catch(err => reject(err));
         })
     }

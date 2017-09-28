@@ -55,17 +55,19 @@ export default class Server {
         this._app.get('/v1/users', userController.getUsers);
         this._app.post('/v1/user/post', userController.postUser);
         this._app.post('/v1/user/put', userController.putUser);
-        this._app.delete('/v1/user', userController.killUser);
+        this._app.delete('/v1/user/delete', userController.killUser);
         this._app.post('/v1/user/counter_set/post', userController.addCounterSet);
+        this._app.delete('/v1/user/counter_set/delete', userController.killCounterSet);
+        this._app.post('/v1/user/favorite/post', userController.addCounterSetToFav);
+        this._app.delete('/v1/user/favorite/delete', userController.removeCounterSetFromFav);
 
 
         /**
          * Route CounterSetModel
          */
         this._app.get('/v1/counter_sets', counterSetController.getCounterSets);
-        this._app.post('/v1/counter_set/post', counterSetController.postCounterSet);
         this._app.post('/v1/counter_set/put', counterSetController.putCounterSet);
-        this._app.delete('/v1/counter_set', counterSetController.killCounterSet);
+        this._app.delete('/v1/counter_set/delete', counterSetController.killCounterSet);
         this._app.delete('/v1/counter_set/counter/delete', counterSetController.killCounterFromCounterSet);
         this._app.post('/v1/counter_set/counter/post', counterSetController.addCounter);
 
@@ -75,7 +77,7 @@ export default class Server {
          */
         this._app.get('/v1/counters', counterController.getCounters);
         this._app.get('/v1/counter/:idCounter', counterController.getCounter);
-        this._app.delete('/v1/counter', counterController.killCounter);
+        this._app.delete('/v1/counter/delete', counterController.killCounter);
     }
 
 

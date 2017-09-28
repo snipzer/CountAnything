@@ -68,9 +68,41 @@ export default class UserHandler
     {
         return new Promise((resolve, reject) =>
         {
-            this.UserModel.remove({'_id': id})
-                .then(result => resolve(result))
-                .catch(err => reject(err));
+            this.getUser(id)
+                .then(user =>
+                {
+                    user.counterSets.forEach(counterSetId =>
+                    {
+                        this.CounterSetModel.findOne({"_id": counterSetId})
+                            .then((counterSet) =>
+                            {
+                                new Promise((resolve, reject) =>
+                                {
+                                    try
+                                    {
+                                        counterSet.counters.forEach((counterId) =>
+                                        {
+                                            this.CounterModel.remove({_id: counterId}).exec();
+                                        });
+
+                                        resolve({message: "The counters has been deleted."});
+                                    }
+                                    catch(e)
+                                    {
+                                        reject(e);
+                                    }
+                                });
+
+                                this.CounterSetModel.remove({_id: counterSetId})
+                                    .then(() =>
+                                    {
+                                        this.UserModel.remove({_id: id})
+                                            .then(userDeletion => resolve(userDeletion))
+                                            .catch(err => reject(err));
+                                    }).catch(err => reject(err))
+                            });
+                    });
+                }).catch(err => reject(err));
         });
     }
 

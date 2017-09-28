@@ -8,7 +8,7 @@ export default class CounterSetHandler
     constructor()
     {
         this.CounterSetModel = CounterSetModel;
-        this.Counter = Counter;
+        this.CounterModel = Counter;
     }
 
     getCounterSets()
@@ -82,32 +82,35 @@ export default class CounterSetHandler
             this.getCounterSet(counterSetId)
                 .then(counterSet =>
                 {
-                    this.Counter.getCounter(counterId)
+                    this.CounterModel.findOne({ _id: counterId })
                         .then(counter =>
                         {
-                            counter.remove()
-                                .then(result =>
-                                {
-                                    let index = counterSet.counters.indexOf(counterId);
+                            let counterDateInSecond = counter.date.getTime()/1000;
+                            let now = new Date();
+                            let nowInSecond = now.getTime()/1000;
 
-                                    counterSet.counters.splice(index, 1);
-                                    counterSet.save();
+                            let diff = Math.abs(counterDateInSecond - nowInSecond);
 
-                                    resolve(result)
-                                }).catch(err => reject(err))
-                        }).catch(err => reject(err))
+                            if(diff <= 15)
+                            {
+                                counter.remove()
+                                    .then(result =>
+                                    {
+                                        let index = counterSet.counters.indexOf(counterId);
+
+                                        counterSet.counters.splice(index, 1);
+                                        counterSet.save();
+
+                                        resolve(result)
+                                    }).catch(err => reject(err))
+                            }
+                            else
+                            {
+                                resolve("Error, you only have 5 second to change your mind");
+                            }
+                        }).catch(err => reject(err));
 
                 }).catch(err => reject(err));
-
-            // this.getCounter(id).then(counter =>
-            // {
-            //     /**
-            //      * TODO: Si date.now() - counter.date <= 5 minute alors on supprime
-            //      */
-            //     counter.remove({'_id': id})
-            //         .then(result => resolve(result))
-            //         .catch(err => reject(err));
-            // }).catch(err => reject(err));
         });
     }
 
@@ -118,7 +121,7 @@ export default class CounterSetHandler
             this.getCounterSet(id)
                 .then(counterSet =>
                 {
-                    this.Counter.create({
+                    this.CounterModel.create({
                         date: Date.now(),
                         counterSet: id
                     }).then(counter =>

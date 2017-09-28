@@ -70,6 +70,7 @@ export default class Server {
         this._app.delete('/v1/counter_set/delete', counterSetController.killCounterSet);
         this._app.delete('/v1/counter_set/counter/delete', counterSetController.killCounterFromCounterSet);
         this._app.post('/v1/counter_set/counter/post', counterSetController.addCounter);
+        this._app.post('/v1/counter_set/counter/get', counterController.getCounterFromCounterSet);
 
 
         /**

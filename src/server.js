@@ -9,6 +9,7 @@ import CounterSetController from './controller/CounterSetController';
 import CounterController from './controller/CounterController';
 import MongooseConnector from './utils/bdd/MongooseConnector';
 import config from './config/config';
+import route from './config/route';
 
 export default class Server {
     constructor()
@@ -46,39 +47,40 @@ export default class Server {
         /**
          * Route mainController
          */
-        this._app.get('/', mainController.indexAction);
-        this._app.get('/user', mainController.userAction);
+        this._app.get(route.mainController.main_home, mainController.indexAction);
+        this._app.get(route.mainController.main_user, mainController.userAction);
 
         /**
          * Route UserController
          */
-        this._app.get('/v1/users', userController.getUsers);
-        this._app.post('/v1/user/post', userController.postUser);
-        this._app.post('/v1/user/put', userController.putUser);
-        this._app.delete('/v1/user/delete', userController.killUser);
-        this._app.post('/v1/user/counter_set/post', userController.addCounterSet);
-        this._app.delete('/v1/user/counter_set/delete', userController.killCounterSet);
-        this._app.post('/v1/user/favorite/post', userController.addCounterSetToFav);
-        this._app.delete('/v1/user/favorite/delete', userController.removeCounterSetFromFav);
+        this._app.get(route.userController.user_get_all, userController.getUsers);
+        this._app.get(route.userController.user_get_one, userController.getUser);
+        this._app.post(route.userController.user_post, userController.postUser);
+        this._app.post(route.userController.user_put, userController.putUser);
+        this._app.delete(route.userController.user_delete, userController.killUser);
+        this._app.post(route.userController.user_counter_set_counter_post, userController.addCounterSet);
+        this._app.delete(route.userController.user_counter_set_delete, userController.killCounterSet);
+        this._app.post(route.userController.user_favorite_post, userController.addCounterSetToFav);
+        this._app.delete(route.userController.user_favorite_delete, userController.removeCounterSetFromFav);
 
 
         /**
          * Route CounterSetModel
          */
-        this._app.get('/v1/counter_sets', counterSetController.getCounterSets);
-        this._app.post('/v1/counter_set/put', counterSetController.putCounterSet);
-        this._app.delete('/v1/counter_set/delete', counterSetController.killCounterSet);
-        this._app.delete('/v1/counter_set/counter/delete', counterSetController.killCounterFromCounterSet);
-        this._app.post('/v1/counter_set/counter/post', counterSetController.addCounter);
-        this._app.post('/v1/counter_set/counter/get', counterController.getCounterFromCounterSet);
+        this._app.get(route.counterSetController.counter_set_get_all, counterSetController.getCounterSets);
+        this._app.post(route.counterSetController.counter_set_put, counterSetController.putCounterSet);
+        this._app.delete(route.counterSetController.counter_set_delete, counterSetController.killCounterSet);
+        this._app.delete(route.counterSetController.counter_set_counter_delete, counterSetController.killCounterFromCounterSet);
+        this._app.post(route.counterSetController.counter_set_counter_post, counterSetController.addCounter);
+        this._app.post(route.counterSetController.counter_set_counter_get_all, counterController.getCountersFromCounterSet);
 
 
         /**
          * Route Counter
          */
-        this._app.get('/v1/counters', counterController.getCounters);
-        this._app.get('/v1/counter/:idCounter', counterController.getCounter);
-        this._app.delete('/v1/counter/delete', counterController.killCounter);
+        this._app.get(route.counterController.counter_get_all, counterController.getCounters);
+        this._app.get(route.counterController.counter_get_one, counterController.getCounter);
+        this._app.delete(route.counterController.counter_delete_one, counterController.killCounter);
     }
 
 

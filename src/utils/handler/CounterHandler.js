@@ -37,7 +37,7 @@ export default class CounterHandler
 
     }
 
-    getCounterFromCounterSet(counterSetId)
+    getCountersFromCounterSet(counterSetId)
     {
         return new Promise((resolve, reject) =>
         {

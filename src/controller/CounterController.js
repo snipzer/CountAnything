@@ -23,9 +23,9 @@ export default class CounterController
                .catch(err => res.json(err));
     }
 
-    getCounterFromCounterSet(req, res)
+    getCountersFromCounterSet(req, res)
     {
-        counter.getCounterFromCounterSet(req.body.counterSetId)
+        counter.getCountersFromCounterSet(req.body.counterSetId)
                .then(counters => res.json(counters))
                .catch(err => res.json(err));
     }

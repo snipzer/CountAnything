@@ -1,0 +1,8 @@
+html, body{
+    background-image: url("../image/Fond.png");
+}
+
+#counter_zone{
+    font-size: 50px;
+    font-weight: bold;
+}

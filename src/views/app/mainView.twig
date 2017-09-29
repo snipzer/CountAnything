@@ -1,0 +1,54 @@
+{% extends "../base.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="public/css/mainView.css">
+{% endblock %}
+
+{% block main %}
+    <main>
+        <div id="content">
+            <div id="content-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="text-center">{{ counterSet.label }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 text-center col-md-offset-4">
+                        <p id="counter_zone" class="text-center">{{ counterSet.counters|length }}</p>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-center col-md-offset-4">
+                        <img src="public/image/Bouton.png" width="250px" height="250px" alt="Image du bouton compteur" id="image-button"
+                             data-url="{{ route.counterSetController.counter_set_counter_post }}"
+                             data-counter_set_id="{{ counterSet._id }}"
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+
+                    </div>
+                    <div class="col-md-4 pull-right">
+                        <img class="hidden"  src="public/image/BoutonAnnuler.png" alt="Bouton annuler" width="60px" height="60px" id="return-button"
+                             data-url="{{ route.counterSetController.counter_set_counter_delete }}"
+                             data-counter_set_id="{{ counterSet._id }}"
+                             data-counter_id=""
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="public/js/mainView.js"></script>
+{% endblock %}

@@ -16,6 +16,13 @@ export default class UserController
             .catch(err => res.json(err));
     }
 
+    getUser(req, res)
+    {
+        userHandler.getUser(req.body.id)
+                   .then(result => res.json(result))
+                   .catch(err => res.json(err));
+    }
+
     postUser(req, res)
     {
         userHandler.postUser(req.body.surname)

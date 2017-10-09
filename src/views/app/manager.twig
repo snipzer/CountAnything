@@ -1,0 +1,88 @@
+{% extends "../base.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <main>
+        <div id="content">
+            <div id="content-header">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h1>Gestion des counterSets</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Favoris</h2>
+                        <table id="favorite_table"
+                               class="table table-striped text-center"
+                               data-user_id="{{ user._id }}"
+                               data-url_get_user="{{ route.userController.user_get_one }}"
+                               data-url_get_counter_set="{{ route.counterSetController.counter_set_get_one }}"
+                               data-url_favorite_delete="{{ route.userController.user_favorite_delete }}"
+                        ></table>
+                    </div>
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <h2>Compteurs</h2>
+                            </div>
+                            <div class="col-md-6 col-sm-6 pull-right">
+                                <button class="btn btn-primary"
+                                        data-user_id="{{ user._id }}"
+                                        data-url_post_counter_set="{{ route.userController.user_counter_set_counter_post }}"
+                                        data-toggle="modal"
+                                        data-target="#counter_set_modal"
+                                >+</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="counter_set_table"
+                                       class="table table-striped text-center"
+                                       data-user_id="{{ user._id }}"
+                                       data-url_get_user="{{ route.userController.user_get_one }}"
+                                       data-url_get_counter_set="{{ route.counterSetController.counter_set_get_one }}"
+                                       data-url_counter_set_delete="{{ route.userController.user_counter_set_delete }}"
+                                       data-url_add_fav="{{ route.userController.user_favorite_post }}"
+                                ></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <div id="counter_set_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Ajouter un compteur</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="counterSetLabelInput">Nom du compteur</label>
+                    <input name="counterSetLabelInput" id="counterSetLabelInput" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary addCounterSetButton" >Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="public/js/managerView.js"></script>
+{% endblock %}

@@ -76,12 +76,13 @@ $(document).ready(function ()
                 if(!returnButton.hasClass("hidden"))
                 {
                     returnButton.fadeOut('slow').addClass("hidden");
-                    clearTimeout(timeout);
-                    timeout = setTimeout(function ()
-                    {
-                        if(returnButton.hasClass("hidden"))
-                            returnButton.fadeIn('slow').removeClass("hidden");
-                    }, 5000);
+                    // clearTimeout(timeout);
+                    // timeout = setTimeout(function ()
+                    // {
+                    //     console.log('toto');
+                    //     if(returnButton.hasClass("hidden"))
+                    //         returnButton.fadeIn('slow').removeClass("hidden");
+                    // }, 5000);
                 }
                 break;
             case "SHOW":

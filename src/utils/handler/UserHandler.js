@@ -87,7 +87,7 @@ export default class UserHandler
 
                                         resolve({message: "The counters has been deleted."});
                                     }
-                                    catch(e)
+                                    catch (e)
                                     {
                                         reject(e);
                                     }
@@ -143,8 +143,8 @@ export default class UserHandler
                                     this.CounterModel.remove({_id: counterId})
                                 });
 
-                                resolve(messages.deleted);
-                                reject(messages.errors);
+                                resolve();
+                                reject();
                             });
 
                             this.CounterSetModel.remove({_id: counterSetId})
@@ -169,13 +169,56 @@ export default class UserHandler
             this.getUser(userId)
                 .then(user =>
                 {
-                    if(!user.favoriteCounterSets.includes(counterSetId))
+                    try
                     {
-                        user.favoriteCounterSets.push(counterSetId);
-                        user.save();
+                        if(user.favoriteCounterSets.length <= 4)
+                        {
+                            let bool = false;
+                            let index = user.favoriteCounterSets.indexOf(counterSetId);
+
+                            if (index !== -1)
+                                bool = true;
+
+                            if(bool)
+                            {
+                                resolve({
+                                    msg: "Error favorite already added",
+                                    user: user,
+                                    error: true
+                                });
+                            }
+                            else
+                            {
+                                user.favoriteCounterSets.push(counterSetId);
+                                user.save();
+
+                                resolve(user);
+                            }
+                        }
+                        else
+                        {
+                            /**
+                             * Ici soit on change le premier
+                             */
+                            // user.favoriteCounterSets.splice(0, 1, counterSetId);
+                            // user.save();
+
+                            /**
+                             * Soit on ne fait rien puis on remplace le dernier
+                             */
+
+                            resolve({
+                                msg: "Favorite limit is 5, replacement of the last favorite",
+                                user: user,
+                                error: true
+                            });
+                        }
+                    }
+                    catch (e)
+                    {
+                        reject(e)
                     }
 
-                    resolve(user);
                 }).catch(err => reject(err))
         });
     }
@@ -189,7 +232,7 @@ export default class UserHandler
                 {
                     let index = user.favoriteCounterSets.indexOf(counterSetId);
 
-                    if(index !== -1)
+                    if (index !== -1)
                     {
                         user.favoriteCounterSets.splice(index, 1);
                         user.save();

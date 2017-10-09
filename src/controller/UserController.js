@@ -18,7 +18,7 @@ export default class UserController
 
     getUser(req, res)
     {
-        userHandler.getUser(req.body.id)
+        userHandler.getUser(req.params.userId)
                    .then(result => res.json(result))
                    .catch(err => res.json(err));
     }
@@ -46,7 +46,7 @@ export default class UserController
 
     addCounterSet(req, res)
     {
-        userHandler.addCounterSet(req.body.id, req.body.label)
+        userHandler.addCounterSet(req.body.userId, req.body.label)
             .then(result => res.json(result))
             .catch(err => res.json(err));
     }

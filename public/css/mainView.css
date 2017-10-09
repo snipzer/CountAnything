@@ -6,3 +6,8 @@ html, body{
     font-size: 50px;
     font-weight: bold;
 }
+
+#div_counter_zone{
+    margin-top: 20%;
+    margin-bottom: 20%;
+}

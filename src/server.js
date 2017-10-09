@@ -48,6 +48,7 @@ export default class Server {
          * Route mainController
          */
         this._app.get(route.mainController.main_home, mainController.indexAction);
+        this._app.get(route.mainController.main_counter_set, mainController.counterSetAction);
         this._app.get(route.mainController.main_user, mainController.userAction);
 
         /**
@@ -68,6 +69,7 @@ export default class Server {
          * Route CounterSetModel
          */
         this._app.get(route.counterSetController.counter_set_get_all, counterSetController.getCounterSets);
+        this._app.get(route.counterSetController.counter_set_get_one, counterSetController.getCounterSet);
         this._app.post(route.counterSetController.counter_set_put, counterSetController.putCounterSet);
         this._app.delete(route.counterSetController.counter_set_delete, counterSetController.killCounterSet);
         this._app.delete(route.counterSetController.counter_set_counter_delete, counterSetController.killCounterFromCounterSet);

@@ -16,6 +16,13 @@ export default class CounterSetController
             .catch(err => res.json(err));
     }
 
+    getCounterSet(req, res)
+    {
+        counterSet.getCounterSet(req.params.counterSetId)
+            .then(result => res.json(result))
+            .catch(err => res.json(err));
+    }
+
     postCounterSet(req, res)
     {
         counterSet.postCounterSet(req.body.label)

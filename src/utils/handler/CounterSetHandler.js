@@ -62,6 +62,13 @@ export default class CounterSetHandler
         })
     }
 
+    /**
+     * TODO: Si l'utilisateur possèdent dans ces favoris le compteurs à supprimer, l'enlever des favoris
+     *
+     *
+     * @param id
+     * @returns {Promise}
+     */
     killCounterSet(id)
     {
         return new Promise((resolve, reject) =>

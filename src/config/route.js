@@ -1,6 +1,7 @@
 const route = {
     mainController: {
         main_home: "/",
+        main_counter_set: "/manager",
         main_user: "/user"
     },
     counterController: {
@@ -10,6 +11,7 @@ const route = {
     },
     counterSetController: {
         counter_set_get_all: "/v1/counter_sets",
+        counter_set_get_one: "/v1/counter_set/:counterSetId",
         counter_set_put: "/v1/counter_set/put",
         counter_set_delete: "/v1/counter_set/delete",
         counter_set_counter_get_all: "/v1/counter_set/counter/get",
@@ -18,7 +20,7 @@ const route = {
     },
     userController: {
         user_get_all: "/v1/users",
-        user_get_one:"/v1/user/get",
+        user_get_one:"/v1/user/get/:userId",
         user_post: "/v1/user/post",
         user_put: "/v1/user/put",
         user_delete: "/v1/user/delete",
